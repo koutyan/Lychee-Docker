@@ -14,7 +14,7 @@
 
 ## Table of Contents
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
-- [Image content](#image-content)
+- [Image Content](#image-content)
 - [Setup](#setup)
 	- [Quick Start](#quick-start)
 	- [Prerequisites](#prerequisites)
@@ -22,6 +22,7 @@
 	- [Run with Docker Compose](#run-with-docker-compose)
 - [Available environment variables and defaults](#available-environment-variables-and-defaults)
 - [Advanced configuration](#advanced-configuration)
+- [How to Update](#how-to-update)
 <!-- /TOC -->
 
 ## Image Content
@@ -130,3 +131,23 @@ If you need to add (not change) nginx directives, files mounted in `/etc/nginx/c
 [docker-pulls-shield]: https://img.shields.io/docker/pulls/lycheeorg/lychee.svg?style=flat&label=Docker%20Pulls%20(lychee)
 [lychee-version-shield]: https://img.shields.io/docker/v/lycheeorg/lychee/latest?style=flat&label=Lychee%20Version%20(:latest)
 [last-commit-shield]: https://img.shields.io/github/last-commit/LycheeOrg/Lychee-Docker.svg?style=flat
+
+## How to Update
+
+- Create a working directory for Lychee that contains `docker-compose.yml`
+- **Ansible** must be installed in advance.
+  - https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+1. Go to the `update` directory included in this repository and edit `vars.yml` as follows.
+   - `use_dir`: Directory for Lychee that contains `docker-compose.yml`
+   - `target_container`: Container to be updated (usually default is fine)
+2. Edit `ansible.cfg` and `inventory` as needed.
+3. Run `playbook.yml`
+   ```
+   $ ansible-playbook playbook.yml -v
+   ```
+4. If the execution result is `failed=0`, the update succeeded.
+   ```
+   PLAY RECAP **********************************************************************************************
+   localhost                  : ok=6    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+   ```

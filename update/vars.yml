@@ -1,0 +1,5 @@
+---
+use_dir: Lychee
+target_container:
+  - lycheeorg/lychee
+  - mariadb:10

@@ -1,0 +1,22 @@
+---
+- name: Update Lychee Services
+  hosts: all
+  vars_files:
+    - ./vars.yml
+  tasks:
+    - name: Update containers related to Lychee
+      shell: "docker pull {{ item }}"
+      with_items: "{{ target_container }}"
+    
+    - name: Down Lychee services
+      shell: "cd ~/{{ use_dir }} && docker-compose down"
+    
+    - name: Reboot Lychee services
+      shell: "cd ~/{{ use_dir }} && docker-compose up -d"
+    
+    - name: Check Lychee service health
+      shell: "docker ps | grep lycheeorg/lychee"
+      register: lychee_health_result
+      until: "'(healthy)' in lychee_health_result.stdout"
+      retries: 120
+      delay: 5
